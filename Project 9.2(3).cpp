@@ -35,7 +35,7 @@ struct Student
 void Create(Student* p, const int N);
 void Print(Student* p, const int N);
 int BinSearch(Student* p, const int N, const string prizv, const int kurs,const int Math);
-
+void Sort(Student* p, const int N);
 int main()
 {
 	SetConsoleCP(1251);
@@ -69,6 +69,7 @@ int main()
 			Print(p, N);
 			break;
 		case 3:
+			Sort(p, N);
 			cout << "Введіть ключі пошуку:" << endl;
 
 			cout << " Прізвище: "; cin >> priz;
@@ -168,6 +169,25 @@ void Print(Student* p, const int N)
 		<< endl;
 	cout << endl;
 }
+void Sort(Student* p, const int N)
+{
+	Student tmp;
+	for (int i0 = 0; i0 < N - 1; i0++)
+		for (int i1 = 0; i1 < N - i0 - 1; i1++)
+			if ((p[i1].kurs > p[i1 + 1].kurs)
+				||
+				(p[i1].kurs == p[i1 + 1].kurs &&
+					p[i1].Math < p[i1 + 1].Math)
+				||
+				(p[i1].kurs == p[i1 + 1].kurs &&
+					p[i1].Math == p[i1 + 1].Math &&
+					p[i1].prizv < p[i1 + 1].prizv))
+			{
+				tmp = p[i1];
+				p[i1] = p[i1 + 1];
+				p[i1 + 1] = tmp;
+			}
+}
 int BinSearch(Student* p, const int N, const string prizv, const int kurs, const int Math)
 {
 	int Left = 0, Right = N - 1, c;
@@ -175,6 +195,7 @@ int BinSearch(Student* p, const int N, const string prizv, const int kurs, const
 		c = (Left + Right) / 2;
 		if(p[c].prizv == prizv && p[c].kurs == kurs && p[c].Math == Math)
 			return c;
+
 		if ((p[c].prizv < prizv)
 			||
 			(p[c].prizv == prizv &&
